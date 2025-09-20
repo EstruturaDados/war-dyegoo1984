@@ -15,23 +15,53 @@
 // ============================================================================
 
 // Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
-
+#define MAX_TERRITORIOS 5
+#define TAM_STRING 50
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
-
+struct Territorio {
+    char nome[TAM_STRING];
+    char corExercito[TAM_STRING];
+    int numTropas;
+};
 // --- Protótipos das Funções ---
 // Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
 // Funções de setup e gerenciamento de memória:
+void limparBufferEntrada(){
+    int c;
+    while ((c = getchar()) != "\n" && c != EOF);
+}
 // Funções de interface com o usuário:
+void menu(){
+    printf("()\n");
+    printf("||==========/\n");
+    printf("||       /====================/    \n");
+    printf("||======/    <=  WAR  =>     /======/\n");
+    printf("||     /====================/      /\n");
+    printf("||                       /========/\n");
+    printf("||  [ 1 - Cadastrar Território ]\n");
+    printf("||  [ 2 - Listar Territórios   ]\n");
+    printf("||  [ 3 - Sair                 ]\n");
+    printf("|| \n");
+    printf("||  Escolha uma opção: ");
+}
 // Funções de lógica principal do jogo:
 // Função utilitária:
 
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
+    struct Territorio territorios[MAX_TERRITORIOS];
+    int opcao;
+    menu();
+    scanf("%d", &opcao);
+    limparBufferEntrada();
+
     // 1. Configuração Inicial (Setup):
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
