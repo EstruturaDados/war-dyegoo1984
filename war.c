@@ -34,15 +34,15 @@ struct Territorio {
 // Funções de setup e gerenciamento de memória:
 void limparBufferEntrada(){
     int c;
-    while ((c = getchar()) != "\n" && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 // Funções de interface com o usuário:
 void menu(){
     printf("()\n");
     printf("||==========/\n");
     printf("||       /====================/    \n");
-    printf("||======/    <=  WAR  =>     /======/\n");
-    printf("||     /====================/      /\n");
+    printf("||======/    <=  WAR  =>   /========/\n");
+    printf("||     /==================/        /\n");
     printf("||                       /========/\n");
     printf("||  [ 1 - Cadastrar Território ]\n");
     printf("||  [ 2 - Listar Territórios   ]\n");
@@ -58,11 +58,74 @@ void menu(){
 int main() {
     struct Territorio territorios[MAX_TERRITORIOS];
     int opcao;
-    menu();
+    int totalTerritorios = 0;
+    
+
+    // 1. Configuração Inicial (Setup):
+    do {
+        menu();
     scanf("%d", &opcao);
     limparBufferEntrada();
 
-    // 1. Configuração Inicial (Setup):
+    switch (opcao){
+        case 1: //Cadastro
+            printf(" =>   Cadastro de Território   <=\n\n");
+            
+            if (totalTerritorios < MAX_TERRITORIOS){
+                printf("Digite o nome do território: ");
+                fgets(territorios[totalTerritorios].nome, TAM_STRING, stdin);
+                printf("Digite a cor do exército: ");
+                fgets(territorios[totalTerritorios].corExercito, TAM_STRING, stdin);
+
+                //territorios[totalTerritorios].nome[strcspn(territorios[totalTerritorios].nome, '\n')] = '\0';
+                //territorios[totalTerritorios].corExercito[strcspn(territorios[totalTerritorios].corExercito, '\n')] = '\0';
+
+                printf("Digite o número de tropas: ");
+                scanf("%d", &territorios[totalTerritorios].numTropas);
+                limparBufferEntrada();
+
+                totalTerritorios++;
+
+                printf("Território Cadastrado!");
+
+            } else {
+                printf("Todos Territórios Cadastrados!");
+            }
+
+            printf("\nPressione Enter para continuar...");
+            getchar();
+            break;
+
+        case 2: //Listar Territórios
+            if (totalTerritorios == 0){
+                printf("Nenhum território cadastrado!");
+            } else {
+                for (int i=0; i<totalTerritorios; i++){
+                    printf("= = = = = = = = = = = = = = = = = = = = = = = = =\n");
+                    printf("|| Território: %d\n", i+1);
+                    printf("|| Nome: %s\n", territorios[i].nome);
+                    printf("|| Cor: %s\n", territorios[i].corExercito);
+                    printf("|| Tropas: %d\n", territorios[i].numTropas);
+                }
+                printf("= = = = = = = = = = = = = = = = = = = = = = = = =\n");
+            }
+            printf("\nPressione Enter para continuar...");
+            getchar();
+            break;
+        
+        case 3: //Sair
+            printf("\nSaindo do Jogo...");
+            break;
+        
+        default: //opção inválida
+            printf("\nOpção inválida! Tente novamente.\n");
+            printf("\nPressione Enter para continuar...");
+            getchar();
+            break;
+        }
+
+    } while (opcao != 3);
+
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
     // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
